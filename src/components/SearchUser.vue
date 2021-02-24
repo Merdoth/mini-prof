@@ -1,9 +1,6 @@
 <template>
   <div class="search-box">
-    <input type="text"
-     class="search-bar"
-     v-model="query"
-    />
+    <input type="text" class="search-bar" v-model="query" />
   </div>
 </template>
 <script>
@@ -14,7 +11,12 @@ export default {
       query: "",
     };
   },
-}
+  watch: {
+    query(value) {
+      this.$emit("searchValue", value);
+    },
+  },
+};
 </script>
 <style lang="css">
 .search {

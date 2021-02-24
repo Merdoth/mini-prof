@@ -1,18 +1,22 @@
 <template>
-  <div>
-    <User />
+  <div v-if="users.length > 0">
+    <User v-for="(user, index) in users" :key="index" :user="user" />
+  </div>
+  <div v-else>
+    <p>Sorry User isn't available!!!</p>
   </div>
 </template>
 <script>
-import User from "./User.vue"
+import User from "./User.vue";
 export default {
   name: "UserList",
+  props: ["users"],
   components: {
-    User
+    User,
   },
-data() {
+  data() {
     return {};
-  }
+  },
 };
 </script>
 <style lang="css">

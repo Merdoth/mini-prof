@@ -1,18 +1,18 @@
 <template>
-   <div class="item">
-    <img src="" alt="avatar" />
+  <div class="item" :class="{ 'item--marked': marked }">
+    <img :src="user.avatar" alt="avatar" />
     <div class="item-details">
       <div class="item-details__top">
         <div class="left">
-          <h3>John Doga</h3>
-          <p>Actor</p>
-          <p>Kansas, Louisana </p>
+          <h3 v-html="user.name"></h3>
+          <p v-html="user.title"></p>
+          <p v-html="user.address + '' + user.city"></p>
         </div>
-        <span class="right">john.doga@gmail.com</span>
+        <span class="right" v-html="user.email"></span>
       </div>
       <div class="item-details__bottom">
-        <button>
-          "Mark as Suitable" 
+        <button @click="handleClick">
+          {{ marked ? "Skip Selection" : "Mark as Suitable" }}
         </button>
       </div>
     </div>
@@ -21,6 +21,22 @@
 <script>
 export default {
   name: "User",
+  props: {
+    user: {
+      type: Object,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      marked: false,
+    };
+  },
+  methods: {
+    handleClick() {
+      this.marked = !this.marked;
+    },
+  },
 };
 </script>
 
