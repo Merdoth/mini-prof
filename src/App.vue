@@ -1,20 +1,23 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <SearchUser />
+  <UserList />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import SearchUser from './components/SearchUser.vue'
+import UserList from './components/UserList.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    UserList,
+    SearchUser
   }
 }
 </script>
 
 <style>
+@import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
