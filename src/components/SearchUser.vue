@@ -14,7 +14,16 @@ export default {
   watch: {
     query(value) {
       this.$emit("searchValue", value);
+      if (value == "") {
+        this.$router.push({ path: "/" });
+      } else {
+        this.$router.push({ name: "search", params: { param: value } });
+      }
     },
+  },
+  mounted() {
+    const queryValue = this.$route.params.param || "";
+    this.query = queryValue;
   },
 };
 </script>
