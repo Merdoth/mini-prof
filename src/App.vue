@@ -1,25 +1,63 @@
 <template>
- <div class="home">
-    <SearchUser />
-  <UserList />
- </div>
+  <div class="home">
+    <SearchUser @searchValue="setSearchValue" />
+    <UserList :users="users" />
+  </div>
 </template>
 
 <script>
-import SearchUser from './components/SearchUser.vue'
-import UserList from './components/UserList.vue'
+import SearchUser from "./components/SearchUser.vue";
+import UserList from "./components/UserList.vue";
+import DATA from "./utils/users.json";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     UserList,
-    SearchUser
-  }
-}
+    SearchUser,
+  },
+  data() {
+    return {
+      users: DATA,
+    };
+  },
+  methods: {
+    setSearchValue(value) {
+      this.handleFilter(value);
+    },
+    handleFilter(query) {
+      const regex = new RegExp(query, "gi");
+      let filteredUsers = DATA.filter(
+        (user) =>
+          user.name.match(regex) ||
+          user.email.match(regex) ||
+          user.title.match(regex) ||
+          user.address.match(regex) ||
+          user.city.match(regex)
+      );
+      const decorateQuery = (user, query) => {
+        const regex = new RegExp(query, "gi");
+        const userName = user.replace(regex, function (match) {
+          return `<span class='highlight'>${match}</span>`;
+        });
+        return userName;
+      };
+      const formattedFilteredUsers = filteredUsers.map((user) => ({
+        ...user,
+        name: decorateQuery(user.name, query),
+        email: decorateQuery(user.email, query),
+        title: decorateQuery(user.title, query),
+        address: decorateQuery(user.address, query),
+        city: decorateQuery(user.city, query),
+      }));
+      this.users = formattedFilteredUsers;
+    },
+  },
+};
 </script>
 
 <style>
-@import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
+@import "../node_modules/@fortawesome/fontawesome-free/css/all.css";
 *,
 *:before,
 *:after {
