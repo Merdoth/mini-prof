@@ -2,15 +2,15 @@
   <div class="item" :class="{ 'item--marked': marked }">
     <img :src="user.avatar" alt="avatar" />
     <div class="item-details">
-      <div class="item-details__top">
-        <div class="left">
+      <div class="item-details-user">
+        <div class="item-user-name">
           <h3 v-html="user.name"></h3>
-          <p v-html="user.title"></p>
-          <p v-html="user.address + '' + user.city"></p>
+          <span v-html="user.email"></span>
         </div>
-        <span class="right" v-html="user.email"></span>
+        <p v-html="user.title"></p>
+        <p v-html="user.address + '' + user.city"></p>
       </div>
-      <div class="item-details__bottom">
+      <div class="item-details-btn" :class="{ 'border-clear': marked }">
         <button @click="handleClick">
           {{ marked ? "Skip Selection" : "Mark as Suitable" }}
         </button>
@@ -41,59 +41,98 @@ export default {
 </script>
 
 <style lang="css">
+.item {
+  display: flex;
+  background-color: #fafafa;
+  margin-bottom: 16px;
+  border: 2px solid transparent;
+  border-radius: 5px;
+}
+
+.item--marked {
+  border-color: #aeb9f4;
+}
+
+.item img {
+  width: 140px;
+  background-color: #bbbbbb;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
 .item-details {
   flex: 1;
   display: flex;
   flex-direction: column;
+  box-shadow: 0px 0px 2px rgba(155, 154, 154, 0.24),
+    0px 2px 2px rgba(155, 154, 154, 0.24);
 }
 
-.item-details__top {
+.item-details-user {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   margin-bottom: auto;
   padding: 12px;
+  margin-left: 18px;
+  margin-top: 10px;
+}
+.item-user-name {
+  display: flex;
+  justify-content: space-between;
+  margin-top: -8px;
+  margin-bottom: 4px;
+}
+.item-detail-user .item-user-name h3 {
+  font-size: 23px;
+  font-weight: 400;
+  line-height: 32px;
+  color: rgb(0, 0, 0, 0.87);
 }
 
-.item-details__top h3 {
-  font-size: 18px;
-  margin-bottom: 8px;
+.item-details-user .item-user-name span {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16px;
 }
 
-.item-details__top .left p:first-of-type {
-  font-size: 12px;
-  margin-bottom: 6px;
-  font-weight: bold;
-  opacity: 0.6;
+.item-details-user p,
+.item-details-user .item-user-name span {
+  line-height: 18px;
+  color: rgb(0, 0, 0, 0.54);
+}
+.item-details-user p:first-of-type {
+  font-size: 14px;
+  font-weight: 900;
+  margin-bottom: 4px;
+}
+.item-details-user p:last-of-type {
+  font-weight: 400;
+  font-size: 14px;
 }
 
-.item-details__top .left p:last-of-type {
-  font-size: 12px;
-  opacity: 0.6;
+.item-details-btn {
+  padding: 18px;
+  border-top: 1px solid rgb(0, 0, 0, 0.12);
 }
-
-.item-details__top .right {
-  font-size: 12px;
-  opacity: 0.6;
+.border-clear {
+  border-top: none;
 }
-
-.item-details__bottom {
-  padding: 12px;
-  border-top: 1px solid #e3e3e3;
-}
-
-.item-details__bottom button {
+.item-details-btn button {
   outline: none;
   border: none;
   background-color: transparent;
-  color: green;
+  color: rgba(0, 150, 136, 1);
   text-transform: uppercase;
-  font-weight: 500;
+  text-align: center;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
   cursor: pointer;
+  margin-left: 40px;
 }
 .highlight {
-  background-color: yellow;
-  font-size: inherit;
-
-  /* color: black; */
+  background-color: #fff73b;
+  font-size: inherit !important;
+  font-weight: inherit !important;
 }
 </style>
