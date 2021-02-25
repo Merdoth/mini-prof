@@ -1,6 +1,8 @@
 <template>
   <div class="home">
-    <SearchUser @searchValue="setSearchValue" />
+    <div class="search-wrapper">
+      <SearchUser @searchValue="setSearchValue" />
+    </div>
     <UserList :users="users" />
   </div>
 </template>
@@ -8,7 +10,8 @@
 <script>
 import UserList from "@/components/UserList.vue";
 import SearchUser from "@/components/SearchUser.vue";
-import DATA from "@/utils/users.json";
+import axios from "axios";
+
 export default {
   name: "Home",
   components: {
@@ -17,7 +20,8 @@ export default {
   },
   data() {
     return {
-      users: DATA,
+      users: [],
+      DATA: [],
     };
   },
   methods: {
@@ -26,7 +30,7 @@ export default {
     },
     handleFilter(query) {
       const regex = new RegExp(query, "gi");
-      let filteredUsers = DATA.filter(
+      let filteredUsers = this.DATA.filter(
         (user) =>
           user.name.match(regex) ||
           user.email.match(regex) ||
@@ -34,7 +38,7 @@ export default {
           user.address.match(regex) ||
           user.city.match(regex)
       );
-      const decorateQuery = (user, query) => {
+      const decorateQuery = (user) => {
         const regex = new RegExp(query, "gi");
         const userName = user.replace(regex, function (match) {
           return `<span class='highlight'>${match}</span>`;
@@ -52,10 +56,22 @@ export default {
       this.users = formattedFilteredUsers;
     },
   },
+  mounted() {
+    axios
+      .get("https://api.mocki.io/v1/568c9df9")
+      .then((res) => {
+        this.DATA = res.data.slice(0, 110);
+        this.users = res.data.slice(0, 110);
+      })
+      .catch((error) => {
+        console.log("something went wrong", error);
+      });
+  },
 };
 </script>
 
-<style>
+<style lang="css">
+@import "../../node_modules/@fortawesome/fontawesome-free/css/all.css";
 *,
 *:before,
 *:after {
@@ -64,21 +80,19 @@ export default {
 }
 body {
   background-color: #eeeeee;
+  font-family: "Roboto", sans-serif;
 }
 .home {
-  font-family: sans-serif;
-  width: 564px;
-  height: 643px;
-  margin: 40px auto;
-  left: 0;
-  right: 0;
+  width: 640px;
+  height: 80vh;
+  margin: auto;
+  margin-top: 60px;
   padding: 20px;
   background-color: white;
-  position: fixed;
   overflow-y: scroll;
 }
 .home::-webkit-scrollbar {
-  width: 4px;
+  width: 5px;
 }
 /* Track */
 .home::-webkit-scrollbar-track {
@@ -87,11 +101,23 @@ body {
 /* Handle */
 .home::-webkit-scrollbar-thumb {
   background: #4d4d4d;
-  border-radius: 5px;
+  border-radius: 10px;
   height: 40px;
 }
 /* Handle on hover */
 .home::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+.search-wrapper {
+  width: 640px;
+  padding: 15px;
+  padding-bottom: 20px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  margin: auto;
+  margin-top: -20px;
+  background-color: white;
+  overflow: hidden;
 }
 </style>
