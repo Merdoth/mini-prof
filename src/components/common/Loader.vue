@@ -11,7 +11,9 @@
     </div>
     <div class="user-list-err-text-2">
       <p>{{ msg3 }}!!</p>
-      <span>{{ msg4 }}</span>
+      <span
+        ><p>{{ msg4 }}</p></span
+      >
     </div>
   </div>
 </template>
@@ -100,9 +102,26 @@ export default {
   font-size: 20px;
   margin-bottom: 8px;
 }
-.user-list-err-text-2 span {
+.user-list-err-text-2 span p {
   color: rgba(0, 150, 136, 1);
   text-align: center;
-  margin: 0 auto;
+  margin: auto;
+}
+@media only screen and (max-width: 768px) {
+  .user-list-err {
+    width: 85%;
+    overflow: hidden;
+    margin: auto;
+  }
+  .user-list-err-text-1 p {
+    font-size: 34px;
+  }
+  .user-list-err-text-1 span {
+    font-size: 18px;
+  }
+  .user-list-err-text-2 p,
+  .user-list-err-text-2 span p {
+    font-size: 16px;
+  }
 }
 </style>
