@@ -2,23 +2,29 @@
 
 ## Project setup
 ```
-npm install
+clone repository
+then run `npm install` to install packages
 ```
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+then run `npm run serve` to start application
 ```
 
 ### Compiles and minifies for production
 ```
-npm run build
+run `npm run build` to compile and get your application production ready
 ```
 
-### Lints and fixes files
+### Technologies
 ```
-npm run lint
+Vue.JS, CSS, SPA, ES6
 ```
-
-### Customize configuration
-See.
+### Routing
+```
+Vue Router
+```
+### Hosting / Publishing
+```
+Netlify
+```
