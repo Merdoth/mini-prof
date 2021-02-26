@@ -1,7 +1,12 @@
 <template>
   <div class="search-box">
     <i class="fas fa-search"></i>
-    <input type="text" class="search-bar" v-model="query" />
+    <input
+      type="text"
+      class="search-bar"
+      v-model="query"
+      @input="handleInput"
+    />
   </div>
 </template>
 <script>
@@ -12,9 +17,14 @@ export default {
       query: "",
     };
   },
+  methods: {
+    handleInput(e) {
+      let value = e.target.value;
+      this.$emit("searchValue", value);
+    },
+  },
   watch: {
     query(value) {
-      this.$emit("searchValue", value);
       if (value == "") {
         this.$router.push({ path: "/" });
       } else {
@@ -58,5 +68,16 @@ export default {
   color: rgba(0, 0, 0, 0.75);
   outline: none;
   background-color: rgba(250, 250, 250, 1);
+}
+@media only screen and (max-width: 768px) {
+  .search-box {
+    width: 100%;
+  }
+  .search-box i {
+    font-size: 15px;
+  }
+  .search-box input {
+    font-size: 18px;
+  }
 }
 </style>

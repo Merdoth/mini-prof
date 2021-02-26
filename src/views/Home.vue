@@ -3,13 +3,15 @@
     <div class="search-wrapper">
       <SearchUser @searchValue="setSearchValue" />
     </div>
-    <UserList :users="users" />
+    <UserList :users="users" :loading="loading" :loader="loader" />
+    <Observer @intersect="intersected" />
   </div>
 </template>
 
 <script>
 import UserList from "@/components/UserList.vue";
 import SearchUser from "@/components/SearchUser.vue";
+import Observer from "@/components/common/Observer.vue";
 import axios from "axios";
 
 export default {
@@ -17,15 +19,22 @@ export default {
   components: {
     UserList,
     SearchUser,
+    Observer,
   },
   data() {
     return {
       users: [],
       DATA: [],
+      limit: 50,
+      page: 1,
+      loader: false,
+      loading: false,
+      query: this.$route.params.param,
     };
   },
   methods: {
     setSearchValue(value) {
+      this.query = value;
       this.handleFilter(value);
     },
     handleFilter(query) {
@@ -55,17 +64,31 @@ export default {
       }));
       this.users = formattedFilteredUsers;
     },
+    async intersected() {
+      const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+      await delay(2000);
+
+      this.loading = true;
+      this.DATA = await this.BIGDATA.slice(0, this.page * this.limit);
+      this.page++;
+      this.loading = false;
+    },
   },
-  mounted() {
-    axios
-      .get("https://api.mocki.io/v1/568c9df9")
-      .then((res) => {
-        this.DATA = res.data.slice(0, 110);
-        this.users = res.data.slice(0, 110);
-      })
-      .catch((error) => {
-        console.log("something went wrong", error);
-      });
+  async mounted() {
+    this.loader = true;
+    const res = await axios.get("https://api.mocki.io/v1/568c9df9");
+    this.BIGDATA = res.data.slice(0, 800);
+    this.DATA = res.data.slice(0, this.limit);
+    this.users = this.DATA;
+
+    const queryValue = this.$route.params.param || "";
+    this.handleFilter(queryValue);
+    this.loader = false;
+  },
+  watch: {
+    DATA() {
+      this.handleFilter(this.query);
+    },
   },
 };
 </script>
@@ -78,6 +101,7 @@ export default {
   margin: 0;
   padding: 0;
 }
+
 body {
   background-color: #eeeeee;
   font-family: "Roboto", sans-serif;
@@ -116,8 +140,19 @@ body {
   left: 0;
   right: 0;
   margin: auto;
-  margin-top: -20px;
+  margin-top: -22px;
   background-color: white;
   overflow: hidden;
+}
+@media only screen and (max-width: 768px) {
+  .home {
+    width: 85%;
+    height: 80vh;
+    overflow-y: scroll;
+  }
+  .search-wrapper {
+    width: 85%;
+    overflow: hidden;
+  }
 }
 </style>

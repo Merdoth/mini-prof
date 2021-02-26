@@ -100,14 +100,15 @@ export default {
   line-height: 18px;
   color: rgb(0, 0, 0, 0.54);
 }
-.item-details-user p:first-of-type {
+.item-details-user p {
   font-size: 14px;
+}
+.item-details-user p:first-of-type {
   font-weight: 900;
   margin-bottom: 4px;
 }
 .item-details-user p:last-of-type {
   font-weight: 400;
-  font-size: 14px;
 }
 
 .item-details-btn {
@@ -134,5 +135,33 @@ export default {
   background-color: #fff73b;
   font-size: inherit !important;
   font-weight: inherit !important;
+}
+@media only screen and (max-width: 768px) {
+  .item {
+    overflow: hidden;
+  }
+  .item img {
+    width: 120px;
+    object-fit: contain;
+  }
+  .item-details-user {
+    padding: 8px;
+    margin-left: 10px;
+  }
+  .item-detail-user .item-user-name h3 {
+    font-size: 10px;
+  }
+  .item-details-user .item-user-name span {
+    font-size: 8px;
+  }
+  .item-details-user p {
+    font-size: 10px;
+  }
+  .item-details-btn {
+    padding: 9px;
+  }
+  .item-details-btn button {
+    margin-left: 30px;
+  }
 }
 </style>
